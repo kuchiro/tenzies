@@ -1,12 +1,13 @@
 export default function Die(props){
 
     return(
-        <button style={props.isHeld ? {backgroundColor:"#59E391"} : {backgroundColor:"#ffffff"} }
+        <img
+            src={`/images/dice-${props.value}.svg`}
+            alt={`Die with value ${props.value}`}
+            style={{width: "50px",
+                    height: "50px", 
+                    backgroundColor: props.isHeld ? "#59E391" : "#ffffff" }}
             onClick={props.setHeld}
-            aria-label={`Die with value ${props.value}, 
-            ${props.isHeld ? "held" : "not held"}`}
-        >
-            {props.value}
-        </button>
+        />
     )
 }
