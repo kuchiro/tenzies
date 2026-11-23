@@ -28,10 +28,11 @@ La grille de dés s'adapte au nombre choisi (2 lignes jusqu'à 12 dés, puis 5 o
 
 - 🎲 Choix du nombre de dés avant chaque partie
 - ⏱️ **Chronomètre** : il démarre quand on clique sur *Start* et s'arrête au moment où on gagne
+- ⏸️ Bouton **Pause** : le chronomètre s'arrête et les dés sont cachés. On peut ensuite **reprendre la partie** là où on s'était arrêté (*Resume*) ou **retourner au menu** (*Back to menu*)
 - 🔢 **Compteur de lancers**
 - 🎉 Confettis à la victoire
 - 🔁 Bouton **New Game** pour rejouer avec le même nombre de dés
-- ↩️ Lien **Change number of dice** pour revenir à la page d'accueil
+- ↩️ Lien **Change number of dice** (après une victoire) pour revenir à la page d'accueil
 - 📱 Mise en page adaptée au téléphone
 - ♿ Message de victoire lu par les lecteurs d'écran et focus automatique sur le bouton *New Game*
 

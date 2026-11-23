@@ -34,6 +34,9 @@ export default function App (){
     // state to count the seconds since the beginning of the game
     const [seconds, setSeconds] = useState(0);
 
+    // state to know if the game is paused or not
+    const [isPaused, setIsPaused] = useState(false);
+
     // function to add each roll
     function addCounter(){
         setCounterDice(prevCounter => prevCounter + 1)
@@ -47,18 +50,18 @@ export default function App (){
     }, [gameWon])
 
     // useEffect for the timer : every second we add 1 to the seconds
-    // the timer only runs when the game is started and not won yet
+    // the timer only runs when the game is started, not paused and not won yet
     useEffect(() => {
-        if (!gameStarted || gameWon) {
+        if (!gameStarted || gameWon || isPaused) {
             return
         }
         const intervalId = setInterval(() => {
             setSeconds(prevSeconds => prevSeconds + 1)
         }, 1000)
 
-        // we clean the interval when the game is won or when we go back to the start screen
+        // we clean the interval when the game is won, paused or when we go back to the start screen
         return () => clearInterval(intervalId)
-    }, [gameStarted, gameWon])
+    }, [gameStarted, gameWon, isPaused])
 
     // function to show the time like 01:05 instead of 65
     function formatTime(totalSeconds){
@@ -82,12 +85,24 @@ export default function App (){
         setNumberOfDice(number)
         setCounterDice(0)
         setSeconds(0)
+        setIsPaused(false)
         setAllDices(generateAllNewDice(number))
+    }
+
+    // function to pause the game (the timer stops and the dice are hidden)
+    function pauseGame(){
+        setIsPaused(true)
+    }
+
+    // function to resume the game where we stopped it (dice, rolls and time are kept)
+    function resumeGame(){
+        setIsPaused(false)
     }
 
     // function to go back to the start screen to choose another number of dice
     function backToMenu(){
         setNumberOfDice(0)
+        setIsPaused(false)
         setAllDices([])
     }
 
@@ -177,12 +192,30 @@ export default function App (){
                 You win with {counterDice} {counterDice > 1 ? "rolls" : "roll"} in {formatTime(seconds)} !
             </p>}
 
-            <div className="container" style={{gridTemplateColumns: `repeat(${columns}, minmax(0, 50px))`}}>
-                {diceElements}
-            </div>
+            {/* when the game is paused we hide the dice and show the pause menu */}
+            {isPaused ? (
+                <div className="pause-menu">
+                    <h2>Game paused</h2>
+                    <button className="roll-dice" onClick={resumeGame}>Resume</button>
+                    <button className="menu-button" onClick={backToMenu}>Back to menu</button>
+                </div>
+            ) : (
+                <>
+                    <div className="container" style={{gridTemplateColumns: `repeat(${columns}, minmax(0, 50px))`}}>
+                        {diceElements}
+                    </div>
 
-            <button className="roll-dice" onClick={handleRollClick} ref={newGameSection}> {gameWon ? "New Game" : "Roll" } </button>
-            <button className="menu-button" onClick={backToMenu}>Change number of dice</button>
+                    <div className="game-buttons">
+                        <button className="roll-dice" onClick={handleRollClick} ref={newGameSection}> {gameWon ? "New Game" : "Roll" } </button>
+                        {/* no pause when the game is won, we show the link to the menu instead */}
+                        {gameWon ? (
+                            <button className="menu-button" onClick={backToMenu}>Change number of dice</button>
+                        ) : (
+                            <button className="pause-button" onClick={pauseGame}>Pause</button>
+                        )}
+                    </div>
+                </>
+            )}
         </main>
     )
 }

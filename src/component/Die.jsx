@@ -6,7 +6,7 @@ export default function Die(props){
             className="die"
             src={`/images/dice-${props.value}.svg`}
             alt={`Die with value ${props.value}`}
-            style={{backgroundColor: props.isHeld ? "#045d27" : "#ffffff" }}
+            style={{backgroundColor: props.isHeld ? "#59E391" : "#ffffff" }}
             onClick={props.setHeld}
         />
     )
